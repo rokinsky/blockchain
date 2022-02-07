@@ -1,3 +1,5 @@
+package blockchain
+
 import blockchain.HashTree
 import blockchain.HashTree.given_Show_HashTree
 import cats.syntax.option.*
@@ -5,7 +7,7 @@ import cats.syntax.show.*
 import org.junit.Assert.*
 import org.junit.Test
 
-class Test1:
+class HashTreeSpec:
   @Test def t1(): Unit =
     val expected = s"""0x2e1cc0e4 -
                      |  0xfbfe18ac -
