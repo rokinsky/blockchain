@@ -8,7 +8,8 @@ lazy val root = project
     scalaVersion := scala3Version,
     libraryDependencies ++= Seq(
       "com.novocode" % "junit-interface" % "0.11" % "test",
-      "org.typelevel" %% "cats-core" % "2.7.0"
+      "org.typelevel" %% "cats-core" % "2.7.0",
+      "org.typelevel" %% "cats-effect" % "3.3.5"
     ),
     scalacOptions ++= Seq(
       "-deprecation", // emit warning and location for usages of deprecated APIs

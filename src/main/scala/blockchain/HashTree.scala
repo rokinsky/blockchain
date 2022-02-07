@@ -1,9 +1,13 @@
 package blockchain
 
+import blockchain.Hash.given_Show_Hash
 import blockchain.HashTree.{Leaf, Node, Twig}
+import blockchain.Hashable.given_Hashable_A_B
 import cats.Show
 import cats.data.NonEmptyList as Nel
-import cats.syntax.all.*
+import cats.syntax.option.*
+import cats.syntax.semigroup.*
+import cats.syntax.show.*
 
 import scala.annotation.tailrec
 import scala.util.Properties.lineSeparator as EOL
@@ -19,14 +23,15 @@ enum HashTree[+A]:
     case Node(_, hash, _) => hash
 
 object HashTree:
+
   def leaf[A: Hashable](a: A): HashTree[A] =
     Leaf(a, a.hash)
 
   def twig[A: Hashable](t: HashTree[A]): HashTree[A] =
-    Twig(t, t.treeHash |+| t.treeHash)
+    Twig(t, (t.treeHash, t.treeHash).hash)
 
   def node[A: Hashable](l: HashTree[A], r: HashTree[A]): HashTree[A] =
-    Node(l, l.treeHash |+| r.treeHash, r)
+    Node(l, (l.treeHash, r.treeHash).hash, r)
 
   def buildTree[A: Hashable](values: List[A]): Option[HashTree[A]] =
     def buildList(tree: List[HashTree[A]]): List[HashTree[A]] = tree match
@@ -55,6 +60,9 @@ object HashTree:
       case Node(l, _, r) => drawNode(tree, lvl) ++ auxDraw(l, lvl + 1) ++ auxDraw(r, lvl + 1)
 
     auxDraw(tree, 0)
+
+  given[A: Show]: Show[HashTree[A]] with
+    def show(a: HashTree[A]): String = drawTree(a)
 
   given[A]: Hashable[HashTree[A]] with
     extension(a: HashTree[A]) def hash: Hash = a.treeHash

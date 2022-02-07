@@ -1,6 +1,7 @@
 package blockchain
 
-import cats.syntax.all.*
+import blockchain.Hash.given_Semigroup_Hash
+import cats.syntax.semigroup.*
 import cats.{Semigroup, Show}
 
 trait Hashable[A]:
