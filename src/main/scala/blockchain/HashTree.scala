@@ -6,10 +6,15 @@ import cats.syntax.all.*
 
 import scala.annotation.tailrec
 
-enum HashTree[+A](val treeHash: Hash):
-  case Leaf(value: A, override val treeHash: Hash) extends HashTree(treeHash)
-  case Node(left: HashTree[A], override val treeHash: Hash, right: HashTree[A]) extends HashTree(treeHash)
-  case Twig(left: HashTree[A], override val treeHash: Hash) extends HashTree(treeHash)
+enum HashTree[+A]:
+  case Leaf(value: A, hash: Hash)
+  case Node(left: HashTree[A], hash: Hash, right: HashTree[A])
+  case Twig(left: HashTree[A], hash: Hash)
+
+  def treeHash: Hash = this match
+    case Leaf(_, hash) => hash
+    case Node(_, hash, _) => hash
+    case Twig(_, hash) => hash
 
 object HashTree:
   def leaf[A: Hashable](a: A): HashTree[A] =
