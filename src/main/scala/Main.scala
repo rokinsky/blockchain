@@ -15,6 +15,4 @@ object Main extends IOApp.Simple {
       .traverse_(tree => Console[F].println(tree.show))
 
   val run: IO[Unit] = app[IO]
-
-  def msg = "I was compiled by Scala 3. :)"
 }
