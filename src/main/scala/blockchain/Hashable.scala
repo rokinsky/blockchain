@@ -20,8 +20,11 @@ object Hashable:
     extension(ab: (A, B)) def hash: Hash = ab match
       case (a, b) => a.hash |+| b.hash
 
-  given[A: Hashable]: Hashable[Seq[A]] with
+  given hashableSeqA[A: Hashable]: Hashable[Seq[A]] with
     extension(a: Seq[A]) def hash: Hash = a match
       case Nil => 0
       case x :: Nil => x.hash
       case x::xs => x.hash |+| xs.hash
+
+  given Hashable[String] with
+    extension(a: String) def hash: Hash = a.toList.hash

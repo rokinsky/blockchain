@@ -21,5 +21,6 @@ class HashTreeSpec:
                      |    0x7200b3e8 +
                      |      0x00000072 'r'
                      |""".stripMargin.some
+    val actual = HashTree.buildTree("fubar".toList).map(_.show)
 
-    assertEquals(HashTree.buildTree("fubar".toList).map(_.show), expected)
+    assertEquals(expected, actual)
