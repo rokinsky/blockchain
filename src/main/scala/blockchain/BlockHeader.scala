@@ -17,7 +17,7 @@ object BlockHeader:
   val BlockReward: Amount = 50 * Coin
 
   def validNonce(blockHeader: BlockHeader): Boolean =
-    blockHeader.hash % (2 ^ Difficulty) == 0
+    blockHeader.hash % math.pow(2, Difficulty) == 0
 
   given Hashable[BlockHeader] with
     extension(a: BlockHeader) def hash: Hash =
