@@ -1,8 +1,7 @@
 package blockchain
 
 import blockchain.BlockHeader.BlockReward
-import blockchain.Hash.given_Semigroup_Hash
-import blockchain.Hashable.given_Hashable_Int
+import blockchain.Hashable.hashableSeqA
 import blockchain.Transaction.{Address, Amount}
 import cats.syntax.semigroup.*
 
@@ -19,4 +18,5 @@ object Transaction:
     Transaction(txFrom = 0, txTo = miner, txAmount = BlockReward)
 
   given Hashable[Transaction] with
-    extension(a: Transaction) def hash: Hash = a.txFrom |+| a.txTo |+| a.txAmount
+    extension(a: Transaction) def hash: Hash =
+      List(a.txFrom, a.txTo, a.txAmount).hash

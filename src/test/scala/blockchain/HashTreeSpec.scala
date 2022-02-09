@@ -24,3 +24,18 @@ class HashTreeSpec:
     val actual = HashTree.buildTree("fubar".toList).map(_.show)
 
     assertEquals(expected, actual)
+
+  @Test def t2(): Unit =
+    val expected = s"""0x00000061 'a'
+                     |""".stripMargin.some
+    val actual = HashTree.buildTree("a".toList).map(_.show)
+
+    assertEquals(expected, actual)
+
+  @Test def t3(): Unit =
+    val expected = s"""0x6600a0f8 +
+                     |  0x00000066 'f'
+                     |""".stripMargin
+    val actual = HashTree.drawTree(HashTree.twig(HashTree.leaf('f')))
+
+    assertEquals(expected, actual)

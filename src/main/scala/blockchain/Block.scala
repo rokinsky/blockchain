@@ -30,17 +30,15 @@ object Block:
     verifyChain(blocks).isDefined
 
   def verifyChain(blocks: List[Block]): Option[Hash] =
-    blocks.foldM(0)((acc, cur) => verifyBlock(cur, acc))
+    blocks.reverse.foldM(0)((acc, cur) => verifyBlock(cur, acc))
 
   def verifyBlock(block: Block, parentHash: Hash): Option[Hash] =
     for {
       tree <- HashTree.buildTree(block.blockHdr.coinbase :: block.blockTxs)
-      result <- Option.when(
-                  BlockHeader.validNonce(block.blockHdr) &&
-                  block.blockHdr.parent == parentHash &&
-                  block.blockHdr.txRoot == tree.treeHash
-                )(block.hash)
-    } yield result
+      if BlockHeader.validNonce(block.blockHdr) &&
+         block.blockHdr.parent == parentHash &&
+         block.blockHdr.txRoot == tree.treeHash
+    } yield block.hash
 
   given Hashable[Block] with
     extension(a: Block) def hash: Hash =

@@ -33,3 +33,9 @@ class MerkleProofSpec:
     val actual = HashTree.buildTree("bitcoin".toList).map(tree => MerkleProof.merklePaths('i', tree).map(MerkleProof.showMerklePath))
 
     assertEquals(expected, actual)
+
+  @Test def t5(): Unit =
+    val expected = MerkleProof('a', Nil).some
+    val actual = HashTree.buildTree("a".toList).flatMap(tree => MerkleProof.buildProof('a', tree))
+
+    assertEquals(expected, actual)

@@ -1,6 +1,6 @@
 package blockchain
 
-import blockchain.Hashable.given_Hashable_Int
+import blockchain.Hashable.hashableSeqA
 import blockchain.Transaction
 import blockchain.Transaction.{Amount, Coin, given_Hashable_Transaction}
 import cats.syntax.semigroup.*
@@ -21,4 +21,4 @@ object BlockHeader:
 
   given Hashable[BlockHeader] with
     extension(a: BlockHeader) def hash: Hash =
-      a.parent |+| a.coinbase.hash |+| a.txRoot |+| a.nonce
+      List(a.parent, a.coinbase.hash, a.txRoot, a.nonce).hash
