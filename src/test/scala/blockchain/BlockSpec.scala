@@ -13,26 +13,41 @@ class BlockSpec:
   val genesis: Block = block0
   val block1: Block = Block.mineBlock("Alice".toList.hash, genesis.hash, Nil)
   val block2: Block = Block.mineBlock("Charlie".toList.hash, block1.hash, List(tx1))
-  val chain = List(block2, block1, block0)
-
-  println(s"$block0, $block1, $block2")
 
   @Test def t1(): Unit =
     val expected = Block(
-      BlockHeader(parent = 797158976, Transaction(0, 1392748814, 50000), 0, 3),
-      List(Transaction(2030195168, 0, 1000))
+      BlockHeader(0x00000000, Transaction(0x00000000, 0x7203d9df, 50000), 0x5b10bd5d, 18),
+      Nil
     )
-    val actual = Block.mineBlock("Charlie".toList.hash, block1.hash, List(tx1))
+    val actual = block0
 
     assertEquals(expected, actual)
 
   @Test def t2(): Unit =
-    val expected = 0x0dbea380.some
-    val actual = Block.verifyChain(chain)
+    val expected = Block(
+      BlockHeader(0x70b432e0, Transaction(0x00000000, 0x790251e0, 50000), 0x5ea7a6f0, 0),
+      Nil
+    )
+    val actual = block1
 
     assertEquals(expected, actual)
 
   @Test def t3(): Unit =
+    val expected = Block(
+      BlockHeader(0x2f83ae40, Transaction(0x00000000, 0x5303a90e, 50000), 0x8abe9e15, 3),
+      List(Transaction(0x790251e0, 0xb1011705, 1000))
+    )
+    val actual = block2
+
+    assertEquals(expected, actual)
+
+  @Test def t4(): Unit =
+    val expected = 0x0dbea380.some
+    val actual = Block.verifyChain(List(block2, block1, block0))
+
+    assertEquals(expected, actual)
+
+  @Test def t5(): Unit =
     val expected = none[Hash]
     val actual = Block.verifyChain(List(block1, block2))
 

@@ -1,8 +1,11 @@
 package blockchain
 
 import blockchain.Transaction.{Address, Miner}
+import blockchain.Hashable.given_Hashable_Int
 import blockchain.{BlockHeader, Transaction}
 import cats.syntax.foldable.*
+
+import scala.annotation.tailrec
 
 final case class Block(blockHdr: BlockHeader, blockTxs: List[Transaction])
 
@@ -11,20 +14,17 @@ object Block:
     val coinbase = Transaction.coinbaseTx(miner)
     val txRoot = HashTree.buildTree(coinbase :: blockTxs).fold(0)(_.treeHash)
 
-    def mine(hash: Hash): Block =
+    @tailrec
+    def auxMine(hash: Hash): Block =
       val blockHdr = BlockHeader(
         parent = parent,
         coinbase = coinbase,
         txRoot = txRoot,
         nonce = hash,
       )
-      val block = Block(
-        blockHdr = blockHdr,
-        blockTxs = blockTxs
-      )
-      verifyBlock(block, parent).fold(mine(hash + 1))(_ => block)
+      if BlockHeader.validNonce(blockHdr) then Block(blockHdr, blockTxs) else auxMine(hash + 1)
 
-    mine(0)
+    auxMine(0)
 
   def validChain(blocks: List[Block]): Boolean =
     verifyChain(blocks).isDefined
