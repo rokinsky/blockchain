@@ -4,7 +4,6 @@ import blockchain.Hash.given_Show_Hash
 import blockchain.HashTree.{Leaf, Node, Twig}
 import blockchain.Hashable.given_Hashable_A_B
 import cats.Show
-import cats.data.NonEmptyList as Nel
 import cats.syntax.option.*
 import cats.syntax.semigroup.*
 import cats.syntax.show.*
@@ -40,12 +39,12 @@ object HashTree:
       case x :: y :: ys => node(x, y) :: buildList(ys)
 
     @tailrec
-    def auxBuild(tree: List[HashTree[A]]): Option[HashTree[A]] = tree match
+    def build(tree: List[HashTree[A]]): Option[HashTree[A]] = tree match
       case Nil => none
       case x :: Nil => x.some
-      case xs => auxBuild(buildList(xs))
+      case xs => build(buildList(xs))
 
-    auxBuild(values.map(leaf))
+    build(values.map(leaf))
 
   def drawTree[A: Show](tree: HashTree[A]): String =
     def drawNode(tree: HashTree[A], lvl: Int): String = " ".repeat(2 * lvl) ++ (tree match
@@ -54,12 +53,12 @@ object HashTree:
       case Node(_, hash, _) => s"${hash.show} -$EOL"
     )
 
-    def auxDraw(tree: HashTree[A], lvl: Int): String = tree match
+    def draw(tree: HashTree[A], lvl: Int): String = tree match
       case Leaf(_, _) => drawNode(tree, lvl)
-      case Twig(t, _) => drawNode(tree, lvl) ++ auxDraw(t, lvl + 1)
-      case Node(l, _, r) => drawNode(tree, lvl) ++ auxDraw(l, lvl + 1) ++ auxDraw(r, lvl + 1)
+      case Twig(t, _) => drawNode(tree, lvl) ++ draw(t, lvl + 1)
+      case Node(l, _, r) => drawNode(tree, lvl) ++ draw(l, lvl + 1) ++ draw(r, lvl + 1)
 
-    auxDraw(tree, 0)
+    draw(tree, 0)
 
   given[A: Show]: Show[HashTree[A]] with
     def show(a: HashTree[A]): String = drawTree(a)

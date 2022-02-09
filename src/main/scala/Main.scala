@@ -13,7 +13,7 @@ import cats.{Applicative, Functor, Monad}
 
 object Main extends IOApp.Simple {
   def app[F[_]: Console: Monad]: F[Unit] =
-    for {
+    for
       _ <- HashTree
         .buildTree("fubar".toList)
         .traverse_(tree => Console[F].println(tree.show))
@@ -25,7 +25,7 @@ object Main extends IOApp.Simple {
             Console[F].println(MerkleProof.showMerklePath(merklePath))
           )
         )
-    } yield ()
+    yield ()
 
   val run: IO[Unit] = app[IO]
 }

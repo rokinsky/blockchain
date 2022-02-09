@@ -2,7 +2,7 @@ package blockchain
 
 import blockchain.Hashable.hashableSeqA
 import blockchain.Transaction
-import blockchain.Transaction.{Amount, Coin, given_Hashable_Transaction}
+import blockchain.Transaction.{Amount, Coin}
 import cats.syntax.semigroup.*
 
 final case class BlockHeader(
