@@ -1,29 +1,23 @@
 package blockchain
 
-import blockchain.BlockHeader.BlockReward
-import blockchain.PPrint.given_Show_String_A
+import blockchain.Blockchain.{Address, Amount, BlockReward, Miner}
 import blockchain.Hash.given_Show_Hash
 import blockchain.Hashable.hashableSeqA
-import blockchain.Transaction.{Address, Amount}
+import blockchain.PPrint.given_Show_String_A
 import cats.Show
-import cats.syntax.show.*
 import cats.syntax.semigroup.*
+import cats.syntax.show.*
 
-final case class Transaction(txFrom: Address, txTo: Address, txAmount: Amount)
+final case class Transaction(sender: Address, receiver: Address, amount: Amount)
 
 object Transaction:
-  type Address = Hash
-  type Amount = Int
-  type Miner = Address
-
-  val Coin: Amount = 1000
 
   def coinbaseTx(miner: Miner): Transaction =
-    Transaction(txFrom = 0, txTo = miner, txAmount = BlockReward)
+    Transaction(sender = 0, receiver = miner, amount = BlockReward)
 
   given Hashable[Transaction] with
     extension(a: Transaction) def hash: Hash =
-      List(a.txFrom, a.txTo, a.txAmount).hash
+      List(a.sender, a.receiver, a.amount).hash
 
   given Show[List[Transaction]] with
     def show(transactions: List[Transaction]): String =
@@ -33,7 +27,7 @@ object Transaction:
     def show(transaction: Transaction): String = PPrint.pprH(List(
       "Tx#",
       transaction.hash.show,
-      ("from", transaction.txFrom).show,
-      ("to", transaction.txTo).show,
-      ("amount", transaction.txAmount.toString).show
+      ("from", transaction.sender).show,
+      ("to", transaction.receiver).show,
+      ("amount", transaction.amount.toString).show
     ))

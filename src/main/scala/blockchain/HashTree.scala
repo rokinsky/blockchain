@@ -13,7 +13,7 @@ import scala.util.Properties.lineSeparator as EOL
 
 enum HashTree[+A]:
   case Leaf(value: A, hash: Hash)
-  case Twig(left: HashTree[A], hash: Hash)
+  case Twig(child: HashTree[A], hash: Hash)
   case Node(left: HashTree[A], hash: Hash, right: HashTree[A])
 
   def treeHash: Hash = this match
@@ -23,14 +23,14 @@ enum HashTree[+A]:
 
 object HashTree:
 
-  def leaf[A: Hashable](a: A): HashTree[A] =
-    Leaf(a, a.hash)
+  def leaf[A: Hashable](value: A): HashTree[A] =
+    Leaf(value, value.hash)
 
-  def twig[A: Hashable](t: HashTree[A]): HashTree[A] =
-    Twig(t, (t.treeHash, t.treeHash).hash)
+  def twig[A: Hashable](child: HashTree[A]): HashTree[A] =
+    Twig(child, (child.treeHash, child.treeHash).hash)
 
-  def node[A: Hashable](l: HashTree[A], r: HashTree[A]): HashTree[A] =
-    Node(l, (l.treeHash, r.treeHash).hash, r)
+  def node[A: Hashable](left: HashTree[A], right: HashTree[A]): HashTree[A] =
+    Node(left, (left.treeHash, right.treeHash).hash, right)
 
   def buildTree[A: Hashable](values: List[A]): Option[HashTree[A]] =
     def buildList(tree: List[HashTree[A]]): List[HashTree[A]] = tree match

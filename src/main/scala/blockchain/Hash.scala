@@ -6,7 +6,7 @@ type Hash = Int
 
 object Hash:
   given Show[Hash] with
-    def show(h: Hash): String = f"$h%#010x"
+    def show(hash: Hash): String = f"$hash%#010x"
 
   // Combine two hash values. 0 is the left identity
   given Semigroup[Hash] with

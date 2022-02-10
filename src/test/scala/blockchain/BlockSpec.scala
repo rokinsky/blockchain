@@ -2,7 +2,6 @@ package blockchain
 
 import blockchain.HashTree
 import blockchain.Hashable.hashableSeqA
-import blockchain.Transaction.Coin
 import cats.syntax.option.*
 import org.junit.Assert.*
 import org.junit.Test
@@ -14,11 +13,11 @@ class BlockSpec:
   val charlie: Hash = "Charlie".toList.hash
   val satoshi: Hash = "Satoshi".toList.hash
 
-  val tx1: Transaction = Transaction(alice, bob, 1 * Coin)
-  val block0: Block = Block.mineBlock(satoshi, 0, Nil)
+  val tx1: Transaction = Transaction(alice, bob, 1 * Blockchain.Coin)
+  val block0: Block = Blockchain.mineBlock(satoshi, 0, Nil)
   val genesis: Block = block0
-  val block1: Block = Block.mineBlock(alice, genesis.hash, Nil)
-  val block2: Block = Block.mineBlock(charlie, block1.hash, List(tx1))
+  val block1: Block = Blockchain.mineBlock(alice, genesis.hash, Nil)
+  val block2: Block = Blockchain.mineBlock(charlie, block1.hash, List(tx1))
 
   @Test def t1(): Unit =
     val expected = Block(
@@ -49,12 +48,12 @@ class BlockSpec:
 
   @Test def t4(): Unit =
     val expected = 0x0dbea380.some
-    val actual = Block.verifyChain(List(block2, block1, block0))
+    val actual = Blockchain.verifyChain(List(block2, block1, block0))
 
     assertEquals(expected, actual)
 
   @Test def t5(): Unit =
     val expected = none[Hash]
-    val actual = Block.verifyChain(List(block1, block2))
+    val actual = Blockchain.verifyChain(List(block1, block2))
 
     assertEquals(expected, actual)

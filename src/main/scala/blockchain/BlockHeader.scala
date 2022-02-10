@@ -4,7 +4,7 @@ import blockchain.Hash.given_Show_Hash
 import blockchain.Hashable.hashableSeqA
 import blockchain.PPrint.given_Show_String_A
 import blockchain.Transaction
-import blockchain.Transaction.{Amount, Coin}
+import blockchain.Blockchain.{Amount, Coin}
 import cats.Show
 import cats.syntax.semigroup.*
 import cats.syntax.show.*
@@ -17,11 +17,9 @@ final case class BlockHeader(
 )
 
 object BlockHeader:
-  val Difficulty = 5
-  val BlockReward: Amount = 50 * Coin
 
   def validNonce(blockHeader: BlockHeader): Boolean =
-    blockHeader.hash % math.pow(2, Difficulty) == 0
+    blockHeader.hash % math.pow(2, Blockchain.Difficulty) == 0
 
   given Hashable[BlockHeader] with
     extension(a: BlockHeader) def hash: Hash =
@@ -31,7 +29,7 @@ object BlockHeader:
     def show(blockHeader: BlockHeader): String = PPrint.pprV(List(
       ("hash", blockHeader.hash).show,
       ("parent", blockHeader.parent).show,
-      ("miner", blockHeader.coinbase.txTo).show,
+      ("miner", blockHeader.coinbase.receiver).show,
       ("root", blockHeader.txRoot).show,
       ("nonce", blockHeader.nonce.toString).show
     ))

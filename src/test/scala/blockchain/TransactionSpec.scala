@@ -2,7 +2,6 @@ package blockchain
 
 import blockchain.HashTree
 import blockchain.Hashable.hashableSeqA
-import blockchain.Transaction.Coin
 import cats.syntax.option.*
 import cats.syntax.show.*
 import org.junit.Assert.*
@@ -15,11 +14,11 @@ class TransactionSpec:
   val charlie: Hash = "Charlie".toList.hash
   val satoshi: Hash = "Satoshi".toList.hash
 
-  val tx1: Transaction = Transaction(alice, bob, 1 * Coin)
-  val block0: Block = Block.mineBlock(satoshi, 0, Nil)
+  val tx1: Transaction = Transaction(alice, bob, 1 * Blockchain.Coin)
+  val block0: Block = Blockchain.mineBlock(satoshi, 0, Nil)
   val genesis: Block = block0
-  val block1: Block = Block.mineBlock(alice, genesis.hash, Nil)
-  val block2: Block = Block.mineBlock(charlie, block1.hash, List(tx1))
+  val block1: Block = Blockchain.mineBlock(alice, genesis.hash, Nil)
+  val block2: Block = Blockchain.mineBlock(charlie, block1.hash, List(tx1))
 
   @Test def tt(): Unit =
     val expected = """hash: 0x70b432e0
