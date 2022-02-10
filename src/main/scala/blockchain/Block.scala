@@ -2,9 +2,12 @@ package blockchain
 
 import blockchain.Transaction.{Address, Miner}
 import blockchain.{BlockHeader, Transaction}
+import cats.Show
 import cats.syntax.foldable.*
+import cats.syntax.show.*
 
 import scala.annotation.tailrec
+import scala.util.Properties.lineSeparator as EOL
 
 final case class Block(blockHdr: BlockHeader, blockTxs: List[Transaction])
 
@@ -37,3 +40,9 @@ object Block:
   given Hashable[Block] with
     extension(a: Block) def hash: Hash =
       a.blockHdr.hash
+
+  given Show[Block] with
+    def show(block: Block): String =  PPrint.pprV(List(
+      block.blockHdr.show,
+      (block.blockHdr.coinbase :: block.blockTxs).show
+    ))

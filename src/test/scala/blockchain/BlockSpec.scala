@@ -8,11 +8,17 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class BlockSpec:
-  val tx1: Transaction = Transaction(txFrom = "Alice".toList.hash, txTo = "Bob".toList.hash, txAmount = 1 * Coin)
-  val block0: Block = Block.mineBlock("Satoshi".toList.hash, 0, Nil)
+  // TODO: move to Scope
+  val alice: Hash = "Alice".toList.hash
+  val bob: Hash = "Bob".toList.hash
+  val charlie: Hash = "Charlie".toList.hash
+  val satoshi: Hash = "Satoshi".toList.hash
+
+  val tx1: Transaction = Transaction(alice, bob, 1 * Coin)
+  val block0: Block = Block.mineBlock(satoshi, 0, Nil)
   val genesis: Block = block0
-  val block1: Block = Block.mineBlock("Alice".toList.hash, genesis.hash, Nil)
-  val block2: Block = Block.mineBlock("Charlie".toList.hash, block1.hash, List(tx1))
+  val block1: Block = Block.mineBlock(alice, genesis.hash, Nil)
+  val block2: Block = Block.mineBlock(charlie, block1.hash, List(tx1))
 
   @Test def t1(): Unit =
     val expected = Block(
