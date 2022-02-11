@@ -41,9 +41,9 @@ object HashTree:
 
     @tailrec
     def build(trees: List[HashTree[A]]): Option[HashTree[A]] = trees match
-      case Nil => none
-      case x :: Nil => x.some
-      case xs => build(buildList(xs).reverse)
+      case Nil => none // the initial tree list shouldn't be empty
+      case root :: Nil => root.some
+      case _ => build(buildList(trees).reverse)
 
     build(values.map(leaf))
 
