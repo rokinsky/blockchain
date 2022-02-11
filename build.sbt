@@ -1,5 +1,9 @@
 val scala3Version = "3.1.1"
 
+val catsVersion = "2.7.0"
+val catsEffectVersion = "3.3.5"
+val scalaTestVersion = "3.2.11"
+
 lazy val root = project
   .in(file("."))
   .settings(
@@ -7,9 +11,9 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
     libraryDependencies ++= Seq(
-      "com.novocode" % "junit-interface" % "0.11" % "test",
-      "org.typelevel" %% "cats-core" % "2.7.0",
-      "org.typelevel" %% "cats-effect" % "3.3.5"
+      "org.typelevel" %% "cats-core" % catsVersion,
+      "org.typelevel" %% "cats-effect" % catsEffectVersion,
+      "org.scalatest" %% "scalatest" % scalaTestVersion % Test
     ),
     scalacOptions ++= Seq(
       "-deprecation", // emit warning and location for usages of deprecated APIs

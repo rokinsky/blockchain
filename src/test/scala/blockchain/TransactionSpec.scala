@@ -1,26 +1,14 @@
 package blockchain
 
-import blockchain.HashTree
 import blockchain.Hashable.hashableSeqA
+import blockchain.{HashTree, Scope}
 import cats.syntax.option.*
 import cats.syntax.show.*
-import org.junit.Assert.*
-import org.junit.Test
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers.*
 
-class TransactionSpec:
-  // TODO: move to Scope
-  val alice: Hash = "Alice".toList.hash
-  val bob: Hash = "Bob".toList.hash
-  val charlie: Hash = "Charlie".toList.hash
-  val satoshi: Hash = "Satoshi".toList.hash
-
-  val tx1: Transaction = Transaction(alice, bob, 1 * Blockchain.Coin)
-  val block0: Block = Blockchain.mineBlock(satoshi, 0, Nil)
-  val genesis: Block = block0
-  val block1: Block = Blockchain.mineBlock(alice, genesis.hash, Nil)
-  val block2: Block = Blockchain.mineBlock(charlie, block1.hash, List(tx1))
-
-  @Test def tt(): Unit =
+class TransactionSpec extends AnyFlatSpec:
+  "test1" should "be correct" in new Scope:
     val expected = """hash: 0x70b432e0
                      |parent: 0x00000000
                      |miner: 0x7203d9df
@@ -42,4 +30,4 @@ class TransactionSpec:
                      |Tx# 0x085e2467 from: 0x790251e0 to: 0xb1011705 amount: 1000""".stripMargin
     val actual = PPrint.pprV(List(block0, block1, block2))
 
-    assertEquals(expected, actual)
+    expected shouldEqual actual
