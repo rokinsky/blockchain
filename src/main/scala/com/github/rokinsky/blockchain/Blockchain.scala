@@ -1,8 +1,8 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Blockchain.{Amount, Miner}
 import cats.syntax.foldable.*
 import cats.syntax.functorFilter.*
+import com.github.rokinsky.blockchain.Blockchain.{Amount, Miner}
 
 import scala.annotation.tailrec
 

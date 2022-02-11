@@ -1,12 +1,12 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Blockchain.{Address, Amount, BlockReward, Miner}
-import blockchain.Hash.given_Show_Hash
-import blockchain.Hashable.hashableSeqA
-import blockchain.PPrint.given_Show_String_A
 import cats.Show
 import cats.syntax.semigroup.*
 import cats.syntax.show.*
+import com.github.rokinsky.blockchain.Blockchain.{Address, Amount, BlockReward, Miner}
+import com.github.rokinsky.blockchain.Hash.given_Show_Hash
+import com.github.rokinsky.blockchain.Hashable.given_Hashable_Seq_A
+import com.github.rokinsky.blockchain.PPrint.given_Show_String_A
 
 final case class Transaction(sender: Address, receiver: Address, amount: Amount)
 

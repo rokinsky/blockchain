@@ -1,4 +1,4 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
 import cats.{Semigroup, Show}
 

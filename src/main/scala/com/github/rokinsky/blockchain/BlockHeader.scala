@@ -1,13 +1,12 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Hash.given_Show_Hash
-import blockchain.Hashable.hashableSeqA
-import blockchain.PPrint.given_Show_String_A
-import blockchain.Transaction
-import blockchain.Blockchain.{Amount, Coin}
 import cats.Show
 import cats.syntax.semigroup.*
 import cats.syntax.show.*
+import com.github.rokinsky.blockchain.Blockchain.{Amount, Coin}
+import com.github.rokinsky.blockchain.Hash.given_Show_Hash
+import com.github.rokinsky.blockchain.Hashable.given_Hashable_Seq_A
+import com.github.rokinsky.blockchain.PPrint.given_Show_String_A
 
 final case class BlockHeader(
   parent: Hash,

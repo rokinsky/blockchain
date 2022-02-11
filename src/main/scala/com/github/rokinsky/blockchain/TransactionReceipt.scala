@@ -1,6 +1,6 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Blockchain.Miner
+import com.github.rokinsky.blockchain.Blockchain.Miner
 
 final case class TransactionReceipt(
   blockHash: Hash,

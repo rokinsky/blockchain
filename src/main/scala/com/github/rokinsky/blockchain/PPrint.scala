@@ -1,7 +1,8 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
 import cats.Show
 import cats.syntax.show.*
+
 import scala.util.Properties.lineSeparator as EOL
 
 object PPrint:

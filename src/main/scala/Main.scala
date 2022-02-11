@@ -1,5 +1,4 @@
-import blockchain.HashTree.given_Show_HashTree
-import blockchain.{HashTree, MerkleProof}
+
 import cats.Show.catsShowForChar
 import cats.effect.std.Console
 import cats.effect.{IO, IOApp}
@@ -10,6 +9,7 @@ import cats.syntax.functor.*
 import cats.syntax.show.*
 import cats.syntax.traverse.*
 import cats.{Applicative, Functor, Monad}
+import com.github.rokinsky.blockchain.{HashTree, MerkleProof}
 
 object Main extends IOApp.Simple {
   def app[F[_]: Console: Monad]: F[Unit] =

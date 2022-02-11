@@ -1,8 +1,8 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Hash.given_Semigroup_Hash
 import cats.syntax.semigroup.*
 import cats.{Semigroup, Show}
+import com.github.rokinsky.blockchain.Hash.given_Semigroup_Hash
 
 trait Hashable[A]:
   extension(a: A)
@@ -20,7 +20,8 @@ object Hashable:
     extension(ab: (A, B)) def hash: Hash = ab match
       case (a, b) => a.hash |+| b.hash
 
-  given hashableSeqA[A: Hashable]: Hashable[Seq[A]] with
+  // FIXME: with default given name it doesn't work
+  given given_Hashable_Seq_A[A: Hashable]: Hashable[Seq[A]] with
     extension(a: Seq[A]) def hash: Hash = a match
       case Nil => 0
       case x :: Nil => x.hash

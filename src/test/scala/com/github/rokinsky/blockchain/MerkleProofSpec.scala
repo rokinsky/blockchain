@@ -1,8 +1,5 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.HashTree
-import blockchain.HashTree.given_Show_HashTree
-import blockchain.Hashable.given_Hashable_Char
 import cats.syntax.option.*
 import cats.syntax.show.*
 import org.scalatest.flatspec.AnyFlatSpec

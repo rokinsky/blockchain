@@ -1,10 +1,10 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Hash.{given_Semigroup_Hash, given_Show_Hash}
-import blockchain.HashTree.{Leaf, Node, Twig}
-import blockchain.MerkleProof.MerklePath
 import cats.syntax.semigroup.*
 import cats.syntax.show.*
+import com.github.rokinsky.blockchain.Hash.{given_Semigroup_Hash, given_Show_Hash}
+import com.github.rokinsky.blockchain.HashTree.{Leaf, Node, Twig}
+import com.github.rokinsky.blockchain.MerkleProof.MerklePath
 
 final case class MerkleProof[A](value: A, path: MerklePath)
 

@@ -1,6 +1,5 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.{BlockHeader, Transaction}
 import cats.Show
 import cats.syntax.show.*
 

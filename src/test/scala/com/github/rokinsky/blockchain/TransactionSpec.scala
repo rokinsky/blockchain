@@ -1,9 +1,8 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Hashable.hashableSeqA
-import blockchain.{HashTree, Scope}
 import cats.syntax.option.*
 import cats.syntax.show.*
+import com.github.rokinsky.blockchain.Hashable.given_Hashable_Seq_A
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.*
 

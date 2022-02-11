@@ -1,9 +1,8 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.HashTree
-import blockchain.HashTree.given_Show_HashTree
 import cats.syntax.option.*
 import cats.syntax.show.*
+import com.github.rokinsky.blockchain.HashTree.given_Show_HashTree
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers.*
 

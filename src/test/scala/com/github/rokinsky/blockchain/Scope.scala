@@ -1,6 +1,6 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Hashable.hashableSeqA
+import com.github.rokinsky.blockchain.Hashable.given_Hashable_Seq_A
 
 class Scope:
   val alice: Hash = "Alice".toList.hash

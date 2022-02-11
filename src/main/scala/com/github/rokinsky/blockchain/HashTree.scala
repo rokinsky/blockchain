@@ -1,12 +1,12 @@
-package blockchain
+package com.github.rokinsky.blockchain
 
-import blockchain.Hash.given_Show_Hash
-import blockchain.HashTree.{Leaf, Node, Twig}
-import blockchain.Hashable.given_Hashable_A_B
 import cats.Show
 import cats.syntax.option.*
 import cats.syntax.semigroup.*
 import cats.syntax.show.*
+import com.github.rokinsky.blockchain.Hash.given_Show_Hash
+import com.github.rokinsky.blockchain.HashTree.{Leaf, Node, Twig}
+import com.github.rokinsky.blockchain.Hashable.given_Hashable_A_B
 
 import scala.annotation.tailrec
 import scala.util.Properties.lineSeparator as EOL
