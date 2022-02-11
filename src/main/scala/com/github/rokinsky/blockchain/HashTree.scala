@@ -33,16 +33,17 @@ object HashTree:
     Node(left, (left.treeHash, right.treeHash).hash, right)
 
   def buildTree[A: Hashable](values: List[A]): Option[HashTree[A]] =
-    def buildList(tree: List[HashTree[A]]): List[HashTree[A]] = tree match
-      case Nil => Nil
-      case x :: Nil => List(twig(x))
-      case x :: y :: ys => node(x, y) :: buildList(ys)
+    @tailrec
+    def buildList(trees: List[HashTree[A]], acc: List[HashTree[A]] = Nil): List[HashTree[A]] = trees match
+      case Nil => acc
+      case child :: Nil => twig(child) :: acc
+      case left :: right :: tail => buildList(tail, node(left, right) :: acc)
 
     @tailrec
-    def build(tree: List[HashTree[A]]): Option[HashTree[A]] = tree match
+    def build(trees: List[HashTree[A]]): Option[HashTree[A]] = trees match
       case Nil => none
       case x :: Nil => x.some
-      case xs => build(buildList(xs))
+      case xs => build(buildList(xs).reverse)
 
     build(values.map(leaf))
 
