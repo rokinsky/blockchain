@@ -10,8 +10,8 @@ final case class Block(header: BlockHeader, transactions: List[Transaction])
 
 object Block:
   given Hashable[Block] with
-    extension(a: Block) def hash: Hash =
-      a.header.hash
+    extension(block: Block) def hash: Hash =
+      block.header.hash
 
   given Show[Block] with
     def show(block: Block): String =  PPrint.pprV(List(

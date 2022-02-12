@@ -17,7 +17,7 @@ object Blockchain:
 
   def mineBlock(miner: Miner, parent: Hash, transactions: List[Transaction]): Block =
     val coinbase = Transaction.coinbaseTx(miner)
-    val txRoot = HashTree.buildTree(coinbase :: transactions).fold(0x00000000)(_.treeHash)
+    val txRoot = HashTree.of(coinbase :: transactions).fold(0x00000000)(_.treeHash)
 
     @tailrec
     def mine(nonce: Hash): Block =
@@ -34,7 +34,7 @@ object Blockchain:
 
   def verifyBlock(block: Block, parent: Hash): Option[Hash] =
     for
-      tree <- HashTree.buildTree(block.header.coinbase :: block.transactions)
+      tree <- HashTree.of(block.header.coinbase :: block.transactions)
       if BlockHeader.validNonce(block.header) &&
         block.header.parent == parent &&
         block.header.txRoot == tree.treeHash

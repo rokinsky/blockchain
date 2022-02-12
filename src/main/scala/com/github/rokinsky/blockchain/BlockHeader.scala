@@ -21,8 +21,8 @@ object BlockHeader:
     blockHeader.hash % math.pow(2, Blockchain.Difficulty) == 0
 
   given Hashable[BlockHeader] with
-    extension(a: BlockHeader) def hash: Hash =
-      List(a.parent, a.coinbase.hash, a.txRoot, a.nonce).hash
+    extension(blockHeader: BlockHeader) def hash: Hash =
+      List(blockHeader.parent, blockHeader.coinbase.hash, blockHeader.txRoot, blockHeader.nonce).hash
 
   given Show[BlockHeader] with
     def show(blockHeader: BlockHeader): String = PPrint.pprV(List(

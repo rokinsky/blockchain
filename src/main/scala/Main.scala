@@ -15,10 +15,10 @@ object Main extends IOApp.Simple {
   def app[F[_]: Console: Monad]: F[Unit] =
     for
       _ <- HashTree
-        .buildTree("fubar".toList)
+        .of("fubar".toList)
         .traverse_(tree => Console[F].println(tree.show))
       _ <- HashTree
-        .buildTree("bitcoin".toList)
+        .of("bitcoin".toList)
         .map(tree => MerkleProof.merklePaths('i', tree))
         .traverse_(merklePaths =>
           merklePaths.traverse(merklePath =>

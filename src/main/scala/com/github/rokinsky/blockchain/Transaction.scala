@@ -16,8 +16,8 @@ object Transaction:
     Transaction(sender = 0, receiver = miner, amount = BlockReward)
 
   given Hashable[Transaction] with
-    extension(a: Transaction) def hash: Hash =
-      List(a.sender, a.receiver, a.amount).hash
+    extension(transaction: Transaction) def hash: Hash =
+      List(transaction.sender, transaction.receiver, transaction.amount).hash
 
   given Show[List[Transaction]] with
     def show(transactions: List[Transaction]): String =

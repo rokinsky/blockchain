@@ -32,7 +32,7 @@ object HashTree:
   def node[A: Hashable](left: HashTree[A], right: HashTree[A]): HashTree[A] =
     Node(left, (left.treeHash, right.treeHash).hash, right)
 
-  def buildTree[A: Hashable](values: List[A]): Option[HashTree[A]] =
+  def of[A: Hashable](values: List[A]): Option[HashTree[A]] =
     @tailrec
     def buildList(trees: List[HashTree[A]], acc: List[HashTree[A]] = Nil): List[HashTree[A]] = trees match
       case Nil => acc
@@ -40,29 +40,27 @@ object HashTree:
       case left :: right :: tail => buildList(tail, node(left, right) :: acc)
 
     @tailrec
-    def build(trees: List[HashTree[A]]): Option[HashTree[A]] = trees match
+    def buildTree(trees: List[HashTree[A]]): Option[HashTree[A]] = trees match
       case Nil => none // the initial tree list shouldn't be empty
       case root :: Nil => root.some
-      case _ => build(buildList(trees).reverse)
+      case _ => buildTree(buildList(trees).reverse)
 
-    build(values.map(leaf))
-
-  def drawTree[A: Show](tree: HashTree[A]): String =
-    def drawNode(tree: HashTree[A], lvl: Int): String = " ".repeat(2 * lvl) ++ (tree match
-      case Leaf(value, hash) => s"${hash.show} '${value.show}'$EOL"
-      case Twig(_, hash) => s"${hash.show} +$EOL"
-      case Node(_, hash, _) => s"${hash.show} -$EOL"
-    )
-
-    def draw(tree: HashTree[A], lvl: Int): String = tree match
-      case Leaf(_, _) => drawNode(tree, lvl)
-      case Twig(t, _) => drawNode(tree, lvl) ++ draw(t, lvl + 1)
-      case Node(l, _, r) => drawNode(tree, lvl) ++ draw(l, lvl + 1) ++ draw(r, lvl + 1)
-
-    draw(tree, 0)
+    buildTree(values.map(leaf))
 
   given[A: Show]: Show[HashTree[A]] with
-    def show(a: HashTree[A]): String = drawTree(a)
+    def show(tree: HashTree[A]): String =
+      def drawNode(tree: HashTree[A], lvl: Int): String = " ".repeat(2 * lvl) ++ (tree match
+        case Leaf(value, hash) => s"${hash.show} '${value.show}'$EOL"
+        case Twig(_, hash) => s"${hash.show} +$EOL"
+        case Node(_, hash, _) => s"${hash.show} -$EOL"
+      )
+
+      def drawTree(tree: HashTree[A], lvl: Int): String = tree match
+        case Leaf(_, _) => drawNode(tree, lvl)
+        case Twig(child, _) => drawNode(tree, lvl) ++ drawTree(child, lvl + 1)
+        case Node(left, _, right) => drawNode(tree, lvl) ++ drawTree(left, lvl + 1) ++ drawTree(right, lvl + 1)
+
+      drawTree(tree, 0)
 
   given[A]: Hashable[HashTree[A]] with
-    extension(a: HashTree[A]) def hash: Hash = a.treeHash
+    extension(tree: HashTree[A]) def hash: Hash = tree.treeHash

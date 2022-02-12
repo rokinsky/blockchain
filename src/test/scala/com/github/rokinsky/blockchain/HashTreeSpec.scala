@@ -20,7 +20,7 @@ class HashTreeSpec extends AnyFlatSpec:
                      |    0x7200b3e8 +
                      |      0x00000072 'r'
                      |""".stripMargin.some
-    val actual = HashTree.buildTree("fubar".toList).map(_.show)
+    val actual = HashTree.of("fubar".toList).map(_.show)
 
     expected shouldEqual actual
   }
@@ -28,7 +28,7 @@ class HashTreeSpec extends AnyFlatSpec:
   "test2" should "be correct" in {
     val expected = s"""0x00000061 'a'
                      |""".stripMargin.some
-    val actual = HashTree.buildTree("a".toList).map(_.show)
+    val actual = HashTree.of("a".toList).map(_.show)
 
     expected shouldEqual actual
   }
@@ -37,7 +37,7 @@ class HashTreeSpec extends AnyFlatSpec:
     val expected = s"""0x6600a0f8 +
                      |  0x00000066 'f'
                      |""".stripMargin
-    val actual = HashTree.drawTree(HashTree.twig(HashTree.leaf('f')))
+    val actual = HashTree.twig(HashTree.leaf('f')).show
 
     expected shouldEqual actual
   }

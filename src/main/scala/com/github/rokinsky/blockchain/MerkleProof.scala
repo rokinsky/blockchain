@@ -11,7 +11,7 @@ final case class MerkleProof[A](value: A, path: MerklePath)
 object MerkleProof:
   type MerklePath = List[Either[Hash, Hash]]
 
-  def buildProof[A: Hashable](value: A, tree: HashTree[A]): Option[MerkleProof[A]] =
+  def of[A: Hashable](value: A, tree: HashTree[A]): Option[MerkleProof[A]] =
     merklePaths(value, tree).headOption.map(MerkleProof(value, _))
 
   def merklePaths[A: Hashable](value: A, tree: HashTree[A]): List[MerklePath] = tree match

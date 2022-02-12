@@ -11,10 +11,10 @@ trait Hashable[A]:
 
 object Hashable:
   given Hashable[Int] with
-    extension(a: Int) def hash: Hash = a
+    extension(int: Int) def hash: Hash = int
 
   given Hashable[Char] with
-    extension(a: Char) def hash: Hash = a.toInt
+    extension(char: Char) def hash: Hash = char.toInt
 
   given[A: Hashable, B: Hashable]: Hashable[(A, B)] with
     extension(ab: (A, B)) def hash: Hash = ab match
@@ -24,8 +24,8 @@ object Hashable:
   given given_Hashable_Seq_A[A: Hashable]: Hashable[Seq[A]] with
     extension(a: Seq[A]) def hash: Hash = a match
       case Nil => 0
-      case x :: Nil => x.hash
-      case x::xs => x.hash |+| xs.hash
+      case head :: Nil => head.hash
+      case head::tail => head.hash |+| tail.hash
 
   given Hashable[String] with
-    extension(a: String) def hash: Hash = a.toList.hash
+    extension(string: String) def hash: Hash = string.toList.hash

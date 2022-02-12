@@ -9,7 +9,7 @@ final case class TransactionReceipt(
 
 object TransactionReceipt:
   def of(block: Block, transaction: Transaction): Option[TransactionReceipt] =
-    HashTree
-      .buildTree(block.header.coinbase :: block.transactions)
-      .flatMap(MerkleProof.buildProof(transaction, _))
-      .map(TransactionReceipt(block.header.hash, _))
+    for
+      tree <- HashTree.of(block.header.coinbase :: block.transactions)
+      proof <- MerkleProof.of(transaction, tree)
+    yield TransactionReceipt(block.header.hash, proof)
