@@ -3,16 +3,22 @@ val scala3Version = "3.1.1"
 val catsVersion = "2.7.0"
 val catsEffectVersion = "3.3.5"
 val scalaTestVersion = "3.2.11"
+val fs2Version = "3.2.4"
 
 lazy val root = project
   .in(file("."))
   .settings(
+    fork := true, // Fork to separate process
+    run / connectInput := true, // Connects stdin to sbt during forked runs
+    outputStrategy := Some(StdoutOutput), // Get rid of output prefix
     name := "Blockchain",
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-core" % catsVersion,
       "org.typelevel" %% "cats-effect" % catsEffectVersion,
+      "co.fs2" %% "fs2-core" % fs2Version,
+      "co.fs2" %% "fs2-io" % fs2Version,
       "org.scalatest" %% "scalatest" % scalaTestVersion % Test
     ),
     scalacOptions ++= Seq(
