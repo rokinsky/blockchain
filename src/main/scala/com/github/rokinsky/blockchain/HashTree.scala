@@ -17,8 +17,8 @@ enum HashTree[+A]:
   case Node(left: HashTree[A], hash: Hash, right: HashTree[A])
 
   def treeHash: Hash = this match
-    case Leaf(_, hash) => hash
-    case Twig(_, hash) => hash
+    case Leaf(_, hash)    => hash
+    case Twig(_, hash)    => hash
     case Node(_, hash, _) => hash
 
 object HashTree:
@@ -35,32 +35,32 @@ object HashTree:
   def of[A: Hashable](values: List[A]): Option[HashTree[A]] =
     @tailrec
     def buildList(trees: List[HashTree[A]], acc: List[HashTree[A]] = Nil): List[HashTree[A]] = trees match
-      case Nil => acc
-      case child :: Nil => twig(child) :: acc
+      case Nil                   => acc
+      case child :: Nil          => twig(child) :: acc
       case left :: right :: tail => buildList(tail, node(left, right) :: acc)
 
     @tailrec
     def buildTree(trees: List[HashTree[A]]): Option[HashTree[A]] = trees match
-      case Nil => none // the initial tree list shouldn't be empty
+      case Nil         => none // the initial tree list shouldn't be empty
       case root :: Nil => root.some
-      case _ => buildTree(buildList(trees).reverse)
+      case _           => buildTree(buildList(trees).reverse)
 
     buildTree(values.map(leaf))
 
-  given[A: Show]: Show[HashTree[A]] with
+  given [A: Show]: Show[HashTree[A]] with
     def show(tree: HashTree[A]): String =
       def drawNode(tree: HashTree[A], lvl: Int): String = " ".repeat(2 * lvl) ++ (tree match
         case Leaf(value, hash) => s"${hash.show} '${value.show}'$EOL"
-        case Twig(_, hash) => s"${hash.show} +$EOL"
-        case Node(_, hash, _) => s"${hash.show} -$EOL"
+        case Twig(_, hash)     => s"${hash.show} +$EOL"
+        case Node(_, hash, _)  => s"${hash.show} -$EOL"
       )
 
       def drawTree(tree: HashTree[A], lvl: Int): String = tree match
-        case Leaf(_, _) => drawNode(tree, lvl)
-        case Twig(child, _) => drawNode(tree, lvl) ++ drawTree(child, lvl + 1)
+        case Leaf(_, _)           => drawNode(tree, lvl)
+        case Twig(child, _)       => drawNode(tree, lvl) ++ drawTree(child, lvl + 1)
         case Node(left, _, right) => drawNode(tree, lvl) ++ drawTree(left, lvl + 1) ++ drawTree(right, lvl + 1)
 
       drawTree(tree, 0)
 
-  given[A]: Hashable[HashTree[A]] with
-    extension(tree: HashTree[A]) def hash: Hash = tree.treeHash
+  given [A]: Hashable[HashTree[A]] with
+    extension (tree: HashTree[A]) def hash: Hash = tree.treeHash

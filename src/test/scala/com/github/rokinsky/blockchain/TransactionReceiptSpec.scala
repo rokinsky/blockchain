@@ -12,7 +12,7 @@ class TransactionReceiptSpec extends AnyFlatSpec:
       block1.hash,
       List(tx1)
     )
-    val actual = Blockchain.validateReceipt(receipt, block.header)
+    val actual   = Blockchain.validateReceipt(receipt, block.header)
     val expected = true
 
     expected shouldEqual actual

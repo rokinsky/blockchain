@@ -8,8 +8,8 @@ import scala.annotation.tailrec
 
 object Blockchain:
   type Address = Hash
-  type Amount = Int
-  type Miner = Address
+  type Amount  = Int
+  type Miner   = Address
 
   val Coin: Amount = 1000
   val Difficulty = 5
@@ -17,7 +17,7 @@ object Blockchain:
 
   def mineBlock(miner: Miner, parent: Hash, transactions: List[Transaction]): Block =
     val coinbase = Transaction.coinbaseTx(miner)
-    val txRoot = HashTree.of(coinbase :: transactions).fold(0x00000000)(_.treeHash)
+    val txRoot   = HashTree.of(coinbase :: transactions).fold(0x00000000)(_.treeHash)
 
     @tailrec
     def mine(nonce: Hash): Block =

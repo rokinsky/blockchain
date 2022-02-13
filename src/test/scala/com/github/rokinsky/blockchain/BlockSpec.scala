@@ -35,12 +35,12 @@ class BlockSpec extends AnyFlatSpec:
 
   "test4" should "be correct" in new Scope:
     val expected = 0x0dbea380.some
-    val actual = Blockchain.verifyChain(List(block2, block1, block0))
+    val actual   = Blockchain.verifyChain(List(block2, block1, block0))
 
     expected shouldEqual actual
 
   "test5" should "be correct" in new Scope:
     val expected = none[Hash]
-    val actual = Blockchain.verifyChain(List(block1, block2))
+    val actual   = Blockchain.verifyChain(List(block1, block2))
 
     expected shouldEqual actual

@@ -1,7 +1,7 @@
 package com.github.rokinsky.boot
 
 import cats.Monad
-import cats.Show.catsShowForChar
+import cats.Show.catsShowForString
 import cats.effect.std.Console
 import cats.effect.Sync
 import cats.syntax.applicative.*
@@ -12,7 +12,7 @@ import cats.syntax.show.*
 import cats.syntax.traverse.*
 import com.github.rokinsky.blockchain.{HashTree, MerkleProof}
 import fs2.io.{stdinUtf8, stdoutLines}
-import fs2.{Pipe, Stream, text}
+import fs2.{text, Pipe, Stream}
 
 object App:
   def app[F[_]: Monad]: F[Option[String]] =
@@ -28,9 +28,9 @@ object App:
     yield paths
 
   def stream[F[_]: Sync](source: Stream[F, String], emit: Pipe[F, String, Nothing]): Stream[F, Nothing] =
-    stdinUtf8(4096)
+    source
       .through(text.lines)
       .filter(_.nonEmpty)
       .evalMapFilter(_ => app)
       .map(_ ++ "\n")
-      .through(stdoutLines())
+      .through(emit)

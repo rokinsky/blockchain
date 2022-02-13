@@ -9,17 +9,17 @@ import org.scalatest.matchers.should.Matchers.*
 class HashTreeSpec extends AnyFlatSpec:
   "test1" should "be correct" in {
     val expected = s"""0x2e1cc0e4 -
-                     |  0xfbfe18ac -
-                     |    0x6600a107 -
-                     |      0x00000066 'f'
-                     |      0x00000075 'u'
-                     |    0x62009aa7 -
-                     |      0x00000062 'b'
-                     |      0x00000061 'a'
-                     |  0xd11bea20 +
-                     |    0x7200b3e8 +
-                     |      0x00000072 'r'
-                     |""".stripMargin.some
+                      |  0xfbfe18ac -
+                      |    0x6600a107 -
+                      |      0x00000066 'f'
+                      |      0x00000075 'u'
+                      |    0x62009aa7 -
+                      |      0x00000062 'b'
+                      |      0x00000061 'a'
+                      |  0xd11bea20 +
+                      |    0x7200b3e8 +
+                      |      0x00000072 'r'
+                      |""".stripMargin.some
     val actual = HashTree.of("fubar".toList).map(_.show)
 
     expected shouldEqual actual
@@ -27,7 +27,7 @@ class HashTreeSpec extends AnyFlatSpec:
 
   "test2" should "be correct" in {
     val expected = s"""0x00000061 'a'
-                     |""".stripMargin.some
+                      |""".stripMargin.some
     val actual = HashTree.of("a".toList).map(_.show)
 
     expected shouldEqual actual
@@ -35,8 +35,8 @@ class HashTreeSpec extends AnyFlatSpec:
 
   "test3" should "be correct" in {
     val expected = s"""0x6600a0f8 +
-                     |  0x00000066 'f'
-                     |""".stripMargin
+                      |  0x00000066 'f'
+                      |""".stripMargin
     val actual = HashTree.twig(HashTree.leaf('f')).show
 
     expected shouldEqual actual

@@ -7,7 +7,10 @@ import org.scalatest.matchers.should.Matchers.*
 
 class MerkleProofSpec extends AnyFlatSpec:
   "test1" should "be correct" in {
-    val expected = List(List(Left(1377068650), Left(1946203903), Right(98)), List(Right(1777612924), Left(1845538200), Right(111))).some
+    val expected = List(
+      List(Left(1377068650), Left(1946203903), Right(98)),
+      List(Right(1777612924), Left(1845538200), Right(111))
+    ).some
     val actual = HashTree.of("bitcoin".toList).map(tree => MerkleProof.merklePaths('i', tree))
 
     expected shouldEqual actual
@@ -15,13 +18,13 @@ class MerkleProofSpec extends AnyFlatSpec:
 
   "test2" should "be correct" in {
     val expected = None
-    val actual = HashTree.of("bitcoin".toList).flatMap(tree => MerkleProof.of('e', tree))
+    val actual   = HashTree.of("bitcoin".toList).flatMap(tree => MerkleProof.of('e', tree))
 
     expected shouldEqual actual
   }
 
   "test3" should "be correct" in {
-    val tree = HashTree.of("bitcoin".toList)
+    val tree  = HashTree.of("bitcoin".toList)
     val proof = tree.flatMap(tree => MerkleProof.of('i', tree))
 
     true.some shouldEqual proof.map(proof => MerkleProof.verifyProof(tree.fold(0x0)(_.treeHash), proof))
@@ -30,14 +33,15 @@ class MerkleProofSpec extends AnyFlatSpec:
 
   "test4" should "be correct" in {
     val expected = List("<0x5214666a<0x7400b6ff>0x00000062", ">0x69f4387c<0x6e00ad98>0x0000006f").some
-    val actual = HashTree.of("bitcoin".toList).map(tree => MerkleProof.merklePaths('i', tree).map(MerkleProof.showMerklePath))
+    val actual =
+      HashTree.of("bitcoin".toList).map(tree => MerkleProof.merklePaths('i', tree).map(MerkleProof.showMerklePath))
 
     expected shouldEqual actual
   }
 
   "test5" should "be correct" in {
     val expected = MerkleProof('a', Nil).some
-    val actual = HashTree.of("a".toList).flatMap(tree => MerkleProof.of('a', tree))
+    val actual   = HashTree.of("a".toList).flatMap(tree => MerkleProof.of('a', tree))
 
     expected shouldEqual actual
   }

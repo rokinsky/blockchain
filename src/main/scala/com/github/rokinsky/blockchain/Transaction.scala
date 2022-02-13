@@ -16,18 +16,21 @@ object Transaction:
     Transaction(sender = 0, receiver = miner, amount = BlockReward)
 
   given Hashable[Transaction] with
-    extension(transaction: Transaction) def hash: Hash =
-      List(transaction.sender, transaction.receiver, transaction.amount).hash
+    extension (transaction: Transaction)
+      def hash: Hash =
+        List(transaction.sender, transaction.receiver, transaction.amount).hash
 
   given Show[List[Transaction]] with
     def show(transactions: List[Transaction]): String =
       PPrint.pprV(transactions.map(_.show))
 
   given Show[Transaction] with
-    def show(transaction: Transaction): String = PPrint.pprH(List(
-      "Tx#",
-      transaction.hash.show,
-      ("from", transaction.sender).show,
-      ("to", transaction.receiver).show,
-      ("amount", transaction.amount.toString).show
-    ))
+    def show(transaction: Transaction): String = PPrint.pprH(
+      List(
+        "Tx#",
+        transaction.hash.show,
+        ("from", transaction.sender).show,
+        ("to", transaction.receiver).show,
+        ("amount", transaction.amount.toString).show
+      )
+    )

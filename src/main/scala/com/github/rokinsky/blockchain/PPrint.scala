@@ -13,10 +13,10 @@ object PPrint:
     intercalateS(EOL, values)
 
   def intercalateS[A: Show](sep: String, values: Seq[A]): String = values match
-    case Nil => ""
+    case Nil      => ""
     case x :: Nil => x.show
-    case x :: xs => s"${x.show}$sep${intercalateS(sep, xs)}"
+    case x :: xs  => s"${x.show}$sep${intercalateS(sep, xs)}"
 
-  given[A: Show]: Show[(String, A)] with
+  given [A: Show]: Show[(String, A)] with
     def show(pair: (String, A)): String = pair match
       case (key, value) => s"$key: ${value.show}"
