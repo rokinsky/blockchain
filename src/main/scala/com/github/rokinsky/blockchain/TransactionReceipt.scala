@@ -1,6 +1,6 @@
 package com.github.rokinsky.blockchain
 
-import com.github.rokinsky.blockchain.Blockchain.Miner
+import com.github.rokinsky.blockchain.Chain.Miner
 
 final case class TransactionReceipt(
   blockHash: Hash,
@@ -8,6 +8,11 @@ final case class TransactionReceipt(
 )
 
 object TransactionReceipt:
+  extension (transactionReceipt: TransactionReceipt)
+    def isValid(blockHeader: BlockHeader): Boolean =
+      transactionReceipt.blockHash == blockHeader.hash &&
+        MerkleProof.verifyProof(blockHeader.txRoot, transactionReceipt.proof)
+
   def of(block: Block, transaction: Transaction): Option[TransactionReceipt] =
     for
       tree  <- HashTree.of(block.header.coinbase :: block.transactions)

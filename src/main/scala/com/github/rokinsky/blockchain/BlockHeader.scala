@@ -3,22 +3,22 @@ package com.github.rokinsky.blockchain
 import cats.Show
 import cats.syntax.semigroup.*
 import cats.syntax.show.*
-import com.github.rokinsky.blockchain.Blockchain.{Amount, Coin}
+import com.github.rokinsky.blockchain.Chain.{Amount, Coin}
 import com.github.rokinsky.blockchain.Hash.given_Show_Hash
 import com.github.rokinsky.blockchain.Hashable.given_Hashable_Seq_A
 import com.github.rokinsky.blockchain.PPrint.given_Show_String_A
 
 final case class BlockHeader(
-  parent:   Hash,
-  coinbase: Transaction,
-  txRoot:   Hash, // root of the Merkle tree
-  nonce:    Hash
+  parent:     Hash,
+  coinbase:   Transaction,
+  txRoot:     Hash, // root of the Merkle tree
+  nonce:      Hash,
+  difficulty: Int,
 )
 
 object BlockHeader:
-
-  def validNonce(blockHeader: BlockHeader): Boolean =
-    blockHeader.hash % math.pow(2, Blockchain.Difficulty) == 0
+  extension (blockHeader: BlockHeader)
+    def isValid: Boolean = blockHeader.hash % math.pow(2, blockHeader.difficulty) == 0
 
   given Hashable[BlockHeader] with
     extension (blockHeader: BlockHeader)
